@@ -19,9 +19,17 @@ Server:
 cd server
 npm install o yarn
 npm start o yarn start
-
+```
+Client:
+```
+cd client
+npm install o yarn
+npm start o yarn start
+npm test
+```
 ## Estructura
 El proyecto está dividido en dos carpetas: "client" (aplicación ReactJS) y "server" (servidor NodeJS).
+
 ###### Server
 - **server**
   - routes
@@ -35,6 +43,7 @@ En "ExternalAPI" es dónde se colocan las api externas, en este caso se encuentr
 En "utils" se encuentra un arhivo que es encargado de generar el formato JSONs requerido para ser devueltos por los "endpoints" que se usan en ExternalAPI.
 En "routes" es donde están definidos los dos "endpoints": `/api/items?q=:query` y `/api/items/:id`.
 
+Client:
 ###### Client
 - **client**
   - src
