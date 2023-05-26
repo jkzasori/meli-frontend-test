@@ -1,5 +1,5 @@
 import "./styles/productDetail.scss";
-
+import { formatNumber } from "util/numberFormat";
 export const ProductDetail = (props) => {
   const { detailItem } = props;
   return (
@@ -9,7 +9,7 @@ export const ProductDetail = (props) => {
           <img src={detailItem?.picture} alt={detailItem?.item?.title} />
         </div>
         <div className="textDescription">
-          <h2>Decipción del producto</h2>
+          <h2>Decripción del producto</h2>
           <p>{detailItem?.description}</p>
         </div>
       </div>
@@ -20,9 +20,12 @@ export const ProductDetail = (props) => {
             ? detailItem?.sold_quantity
             : 0} vendidos
         </h6>
-        <h4>{detailItem?.item?.title}</h4>
+        <h4>{detailItem?.title}</h4>
         <h2>
-          <span> {detailItem.price.currency}{Math.round(detailItem.price.amount)}</span>
+          <span>
+            {detailItem?.price?.currency}{" "}
+            {formatNumber(detailItem?.price?.amount, detailItem.price.decimals)}
+          </span>
         </h2>
         <button>Comprar</button>
       </div>

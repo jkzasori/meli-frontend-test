@@ -5,6 +5,7 @@
   padding: 32px;
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
 }
 
 .description {
@@ -29,7 +30,8 @@
 .paymentZone {
   /* background-color: red; */
   box-sizing: border-box;
-  max-width: 352px;
+  max-width: 275px;
+  width: 100%;
   h2,
   h4,
   h6 {

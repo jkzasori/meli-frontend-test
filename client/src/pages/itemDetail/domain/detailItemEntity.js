@@ -16,15 +16,16 @@ class PriceEntity {
 
 class ItemEntity {
   constructor(
-    id = "", 
-    title = "", 
-    price = {}, 
-    picture = "", 
-    condition = "", 
+    id = "",
+    title = "",
+    price = {},
+    picture = "",
+    condition = "",
     free_shipping = null,
     sold_quantity = 0,
-    description = ""
-    ) {
+    description = "",
+    categories = []
+  ) {
     this.id = id;
     this.title = title;
     this.price = new PriceEntity(price.currency, price.amount, price.decimals);
@@ -33,13 +34,14 @@ class ItemEntity {
     this.free_shipping = free_shipping;
     this.sold_quantity = sold_quantity;
     this.description = description;
+    this.categories = categories;
   }
 }
 
 class DetailItemEntity {
   constructor(author = {}, item = {}) {
     this.author = new AuthorEntity(author.name, author.lastname);
-    this.items =  new ItemEntity(
+    this.items = new ItemEntity(
       item?.id,
       item?.title,
       item?.price,
@@ -47,7 +49,9 @@ class DetailItemEntity {
       item?.condition,
       item?.free_shipping,
       item.sold_quantity,
-      item?.description)
+      item?.description,
+      item?.categories
+    )
   }
 }
 

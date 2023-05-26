@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchItemDetail } from "./adapter/detailItemAdapter";
 import { ProductDetail } from "./components";
-import { ContainerResults } from "components";
-// import {
-//   ContainerBigCard,
-//   LoadingMeli,
-//   ,
-//   BreadCrumbsMeli,
-// } from "../../components";
+import { ContainerResults, BreadCrumbsMeli, LoadingMeli } from "components";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useParams } from 'react-router-dom';
 
@@ -17,7 +11,6 @@ const DetailContainer = (props) => {
 
   const fetchDetail = async (queryValue) => {
     const detailItemData = await fetchItemDetail(queryValue);
-    console.log(detailItemData, "esta es la lista")
     setDetailItem(detailItemData?.items || []);
   };
 
@@ -31,29 +24,22 @@ const DetailContainer = (props) => {
     <HelmetProvider>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Mercado Libre: Encuentre lo que desea</title>
+        <title>{detailItem?.title ? `${detailItem?.title} | Mercado libre` : "Mercado Libre: Encuentre lo que desea"}</title>
         <meta
           name="description"
-          content="Compra en Mercado Libre - Pagá en cuotas - Envíos a todo el país."
+          content={detailItem?.description || "Compra en Mercado Libre - Pagá en cuotas - Envíos a todo el país."}
         />
+        <meta property="og:title" content={detailItem?.title? `${detailItem?.title} | Mercado libre` : "Mercado Libre: Encuentre lo que desea"} />
+        <meta property="og:description" content={detailItem?.description || "Compra en Mercado Libre - Pagá en cuotas - Envíos a todo el país."} />
+        {detailItem?.categories?.length ? <meta name="keywords" content={detailItem?.categories?.map(keyword => keyword.trim()).join(', ')} /> : ""}
       </Helmet>
-      {/* {Object.keys(detailItem).length > 0 ? (
+      {Object.keys(detailItem).length ?
         <>
-          <Helmet>
-            <title>Mercado Libre: </title>
-          </Helmet>
-          <BreadCrumbsMeli categories={detailItem?.categories} />
-          <ContainerBigCard>
+          {detailItem?.categories?.length ? <BreadCrumbsMeli categories={detailItem?.categories} /> : ""}
+          <ContainerResults>
             <ProductDetail detailItem={detailItem} />
-          </ContainerBigCard>
-        </>
-      ) : (
-        <LoadingMeli />
-      )} */}
-
-      <ContainerResults>
-        <ProductDetail detailItem={detailItem} />
-      </ContainerResults>
+          </ContainerResults>
+        </> : <LoadingMeli />}
     </HelmetProvider>
   );
 };

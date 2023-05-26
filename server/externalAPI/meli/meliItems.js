@@ -16,15 +16,19 @@ const itemSearch = async (query) => {
 
 const itemDetail = async (id) => {
   try {
-    const itemDescriptionResponse = await axios.get(`${base_url}/items/${id}/description`);
+    const itemDescriptionResponse = await axios.get(`${base_url}/items/${id}/description`);    
     const itemResponse = await axios.get(`${base_url}/items/${id}`);
+    const itemCategoriesResponse = await axios.get(`${base_url}/categories/${itemResponse?.data?.category_id}`);
     const itemDescription = itemDescriptionResponse?.data?.plain_text || "";
+    const itemCategories = itemCategoriesResponse?.data?.path_from_root?.map(category=> category?.name)
     const item = itemResponse.data;
-    return formatData.formatItemDetail(item, itemDescription);
+    
+    return formatData.formatItemDetail(item, itemDescription, itemCategories);
   } catch (error) {
     throw error;
   }
 };
+
 
 const services = {
   itemSearch,

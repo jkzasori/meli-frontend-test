@@ -1,15 +1,12 @@
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles/input.style.scss";
 
-export const Input = ({ label, value, onChange, placeholder = 'Nunca dejes de buscar' }) => {
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Enter') {
-      onChange(e);
-    }
-  }, [onChange]);
-
+export const Input = ({ label, value, onChange, placeholder = 'Nunca dejes de buscar', ...res }) => {
+  const handleInputChange = (e) => {
+    onChange(e.target.value);
+  };
   return (
     <div className="input">
       {label && <label htmlFor="input">{label}</label>}
@@ -17,9 +14,9 @@ export const Input = ({ label, value, onChange, placeholder = 'Nunca dejes de bu
         id="input"
         type="text"
         value={value}
-        onChange={onChange}
-        onKeyDown={handleKeyDown}
+        onChange={handleInputChange}
         placeholder={placeholder}
+        {...res}
       />
     </div>
   );
@@ -30,4 +27,5 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
+  inputKeyDown: PropTypes.func
 };

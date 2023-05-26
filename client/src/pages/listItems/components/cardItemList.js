@@ -1,6 +1,7 @@
 import imgShipping from "assets/img/ic_shipping.png";
 import { useNavigate } from "react-router-dom";
 import "./styles/cardItemList.scss";
+import { formatNumber } from "util/numberFormat";
 
 export const CardItemList = (props) => {
   const navigate = useNavigate();
@@ -17,7 +18,9 @@ export const CardItemList = (props) => {
           <img className="imgItem" src={item?.picture} alt={item.title} />
           <div className="containerGroupText">
             <h2>
-              <span> {item.price.currency}{Math.round(item.price.amount)}</span>
+              <span> 
+              {item?.price?.currency}{" "}
+            {formatNumber(item?.price?.amount, item.price.decimals)}</span>
               {item?.free_shipping ? (
                 <img src={imgShipping} alt="free shipping" />
               ) : (

@@ -10,7 +10,9 @@ export const Wrapper = (props) => {
       <Header >
         <SearchBar />
       </Header>
-      <div className="wrapperBody">{children}</div>
+      <div className="wrapperBody">
+        {children}
+      </div>
     </div>
   );
 };

@@ -1,19 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchItemList } from "./adapters/itemAdapter";
 import { CardItemList } from "./components";
-import { ContainerResults } from "components";
-// import {ContainerResults} from './style'
-// import {
-//   LoadingMeli,
-//   BreadCrumbsMeli,
-// } from "../../components";
+import { ContainerResults, BreadCrumbsMeli, LoadingMeli } from "components";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const ResultsSearchContainer = () => {
   const [items, setItems] = useState([]);
-  // const [breadCrumbs, setBreadCrumbs] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const [breadCrumbs, setBreadCrumbs] = useState([]);
 
   function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -21,27 +15,15 @@ const ResultsSearchContainer = () => {
 
   let query = useQuery().get("search");
 
-  const fetchItems = async (queryValue) => {
-    const itemListData = await fetchItemList(queryValue);
-    console.log(itemListData, "esta es la lista")
+  const fetchItems = useCallback(async () => {
+    const itemListData = await fetchItemList(query);
     setItems(itemListData?.items || []);
-  };
-  useEffect(() => {
-    fetchItems(query)
+    setBreadCrumbs(itemListData?.categories);
   }, [query])
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetchItemList.itemSearch(query).then((res) => {
-  //     setLoading(false);
-  //     if (res.status === 200) {
-  //       if (!res.data.error) {
-  //         setItems(res?.data?.response?.items);
-  //         setBreadCrumbs(res?.data?.response?.breadCrumbs);
-  //       }
-  //     }
-  //   });
-  // }, [query]);
+  useEffect(() => {
+    fetchItems()
+  }, [fetchItems])
 
   const listItems = (list) => {
     return list?.map((item) => <CardItemList key={item?.id} item={item} />);
@@ -51,25 +33,24 @@ const ResultsSearchContainer = () => {
     <HelmetProvider>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Mercado Libre: Encuentre lo que desea - {query}</title>
+        <title>{query? `${query} | MercadoLibre.com.co` : "Mercado Libre: Encuentre lo que desea"}</title>
         <meta
           name="description"
           content="Mercado Libre, el sitio dónde encuentras todo lo que necesitas - Paga en cuotas - Envíos a todo el país."
         />
+        <meta property="og:title" content={query? `${query} | MercadoLibre.com.co` : "Mercado Libre: Encuentre lo que desea"} />
+        <meta property="og:description" content="Compra en Mercado Libre - Pagá en cuotas - Envíos a todo el país." />
+        
+        {breadCrumbs.length ? <meta name="keywords" content={breadCrumbs?.map(keyword => keyword.trim()).join(', ')} /> : ""}
       </Helmet>
-      {/* {loading ? (
-        <LoadingMeli />
-      ) : items?.length > 0 ? (
-        <ContainerResults>
-          <BreadCrumbsMeli categories={breadCrumbs.slice(0, 4)} />
-          <ContainerBigCard>{listItems(items)}</ContainerBigCard>
+      {items?.length ? <>
+        {breadCrumbs?.length ? <BreadCrumbsMeli categories={breadCrumbs} /> : ""}
+        <ContainerResults breadcrumbsData={breadCrumbs}>
+          {listItems(items)}
         </ContainerResults>
-      ) : (
-        <h6>Nunca pare de buscar</h6>
-      )} */}
-      <ContainerResults>
-        {listItems(items)}
-      </ContainerResults>
+      </> : <LoadingMeli/>
+      }
+
     </HelmetProvider>
   );
 };

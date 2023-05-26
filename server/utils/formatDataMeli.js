@@ -73,13 +73,14 @@ const getItem = async (data, detail = false) => {
   return result;
 };
 
-const formatItemDetail = async (data, itemDescription) => {
+const formatItemDetail = async (data, itemDescription, itemCategories) => {
   try {
     const [item, author] = await Promise.all([
       getItem(data, true), getAuthor()
     ]);
     
     item.description = itemDescription || ""
+    item.categories = itemCategories || []
 
     return {
       author,

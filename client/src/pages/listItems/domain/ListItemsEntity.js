@@ -6,12 +6,6 @@ class AuthorEntity {
   }
 }
 
-class CategoryEntity {
-  constructor(url = "") {
-    this.url = url;
-  }
-}
-
 class PriceEntity {
   constructor(currency = "", amount = 0, decimals = 0) {
     this.currency = currency;
@@ -42,7 +36,7 @@ class ItemEntity {
 class ListItemsEntity {
   constructor(author = {}, categories = [], items = []) {
     this.author = new AuthorEntity(author.name, author.lastname);
-    this.categories = categories.map(category => new CategoryEntity(category));
+    this.categories = categories;
     this.items = items.map(item => new ItemEntity(
       item?.id,
       item?.title,

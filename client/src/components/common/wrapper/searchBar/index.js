@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputSearch } from "components";
 export const SearchBar = () => {
 
@@ -12,13 +12,22 @@ export const SearchBar = () => {
   let navigate = useNavigate();
 
   const locationSearch = (item) => {
-    setInput(item)
+
     if (input) {
+      console.log("llamado")
       navigate(`/items?search=${input}`);
     }
   };
 
+  const handleInputChange = (item) => {
+    setInput(item)
+  }
+
+  useEffect(() => {
+    handleInputChange(query)
+  }, [query])
+
   return (
-    <InputSearch onSearch={locationSearch} />
+    <InputSearch value={input} handleSearchChange={handleInputChange} onSearch={locationSearch} />
   );
 };

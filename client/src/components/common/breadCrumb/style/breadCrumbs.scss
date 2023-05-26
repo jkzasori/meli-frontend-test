@@ -1,0 +1,11 @@
+@import "assets/styles/color";
+
+.breadCrumbContainer{
+  padding: 16px 0;
+  display: block;
+  span {
+    font-size: 14px;
+    cursor: pointer;
+    color: $text-color;
+  }
+};
