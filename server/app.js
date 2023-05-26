@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(compression());
 
-const allowedDomain =  (process.env.CORS_ALLOWED_DOMAIN || "http://localhost:3003");
+const allowedDomain =  (process.env.CORS_ALLOWED_DOMAIN || "http://localhost:3000");
 
 // Permite CORS para sólo el dominio donde corre la app frontend.
 const cors = require('cors');

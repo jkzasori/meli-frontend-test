@@ -1,0 +1,8 @@
+@import 'color';
+* {
+  box-sizing: border-box;
+}
+body, #root {
+  background-color: $background-color;
+  min-height: 100vh;
+}
